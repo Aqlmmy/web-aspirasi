@@ -1,11 +1,12 @@
 'use client';
 
 import React from 'react';
-import { Megaphone, PlusCircle, ShieldCheck, UserCheck, RefreshCw, Database } from 'lucide-react';
+import { Megaphone, PlusCircle, ShieldCheck, RefreshCw, Database, Lock, LogOut } from 'lucide-react';
 
 interface NavbarProps {
   isAdminMode: boolean;
-  onToggleAdminMode: () => void;
+  onRequestAdminLogin: () => void;
+  onLogoutAdmin: () => void;
   onOpenCreateModal: () => void;
   onResetData: () => void;
   isNeon?: boolean;
@@ -14,7 +15,8 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({
   isAdminMode,
-  onToggleAdminMode,
+  onRequestAdminLogin,
+  onLogoutAdmin,
   onOpenCreateModal,
   onResetData,
   isNeon = false,
@@ -61,6 +63,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>{isNeon ? 'Neon DB' : 'LocalStorage'}</span>
             </button>
           )}
+
           {/* Reset Demo Data Button */}
           <button
             onClick={onResetData}
@@ -71,26 +74,30 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           {/* Admin Mode Switcher */}
-          <button
-            onClick={onToggleAdminMode}
-            className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
-              isAdminMode
-                ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-300 dark:border-amber-700/60 shadow-sm'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-slate-300'
-            }`}
-          >
-            {isAdminMode ? (
-              <>
+          {isAdminMode ? (
+            <div className="flex items-center space-x-1">
+              <span className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700/60 shadow-sm">
                 <ShieldCheck className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                <span>Mode Pengelola (BEM)</span>
-              </>
-            ) : (
-              <>
-                <UserCheck className="w-4 h-4 text-slate-500" />
-                <span className="hidden sm:inline">Masuk</span> Mode Admin
-              </>
-            )}
-          </button>
+                <span className="hidden sm:inline">Pengelola</span> BEM
+              </span>
+              <button
+                onClick={onLogoutAdmin}
+                title="Keluar dari Mode Pengelola"
+                className="p-1.5 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={onRequestAdminLogin}
+              title="Masuk sebagai BEM dengan PIN Admin"
+              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-slate-300 hover:bg-slate-200/60 transition-all"
+            >
+              <Lock className="w-3.5 h-3.5 text-slate-500" />
+              <span className="hidden sm:inline">Masuk</span> Mode Admin
+            </button>
+          )}
 
           {/* New Aspiration Button */}
           <button

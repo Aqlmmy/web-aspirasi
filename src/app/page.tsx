@@ -18,12 +18,16 @@ import { FormAspirasiModal } from '@/components/FormAspirasiModal';
 import { AspirasiDetailModal } from '@/components/AspirasiDetailModal';
 import { AdminActionModal } from '@/components/AdminActionModal';
 import { DatabaseModal } from '@/components/DatabaseModal';
+import { AdminPinModal } from '@/components/AdminPinModal';
 import { MessageSquareDashed, Plus } from 'lucide-react';
+
+const ADMIN_PIN_SESSION_KEY = 'suara_mahasiswa_admin_pin';
 
 export default function HomePage() {
   const [aspirasiList, setAspirasiList] = useState<Aspirasi[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isAdminMode, setIsAdminMode] = useState(false);
+  const [adminPin, setAdminPin] = useState<string>('');
   const [isNeon, setIsNeon] = useState(false);
 
   // Filters & Sorting
@@ -37,8 +41,9 @@ export default function HomePage() {
   const [detailAspirasi, setDetailAspirasi] = useState<Aspirasi | null>(null);
   const [adminActionAspirasi, setAdminActionAspirasi] = useState<Aspirasi | null>(null);
   const [isDbModalOpen, setIsDbModalOpen] = useState(false);
+  const [isAdminPinModalOpen, setIsAdminPinModalOpen] = useState(false);
 
-  // Load initial data
+  // Load initial data and restore admin session if any
   const loadData = useCallback(async () => {
     const result = await fetchAllAspirasi();
     setAspirasiList(result.data);
@@ -54,7 +59,33 @@ export default function HomePage() {
 
   useEffect(() => {
     loadData();
+
+    // Check saved admin session
+    if (typeof window !== 'undefined') {
+      const savedPin = sessionStorage.getItem(ADMIN_PIN_SESSION_KEY);
+      if (savedPin) {
+        setAdminPin(savedPin);
+        setIsAdminMode(true);
+      }
+    }
   }, []);
+
+  // Admin Auth Handlers
+  const handleAdminLoginSuccess = (pin: string) => {
+    setAdminPin(pin);
+    setIsAdminMode(true);
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem(ADMIN_PIN_SESSION_KEY, pin);
+    }
+  };
+
+  const handleAdminLogout = () => {
+    setAdminPin('');
+    setIsAdminMode(false);
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem(ADMIN_PIN_SESSION_KEY);
+    }
+  };
 
   // Handlers
   const handleVote = async (id: string) => {
@@ -108,30 +139,34 @@ export default function HomePage() {
     newStatus: StatusAspirasi,
     tanggapan?: TanggapanResmi
   ) => {
-    await updateAspirasiStatus(id, newStatus, tanggapan, isNeon);
+    try {
+      await updateAspirasiStatus(id, newStatus, tanggapan, isNeon, adminPin);
 
-    setAspirasiList((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              status: newStatus,
-              tanggapanResmi: tanggapan || item.tanggapanResmi,
-            }
-          : item
-      )
-    );
-
-    if (detailAspirasi && detailAspirasi.id === id) {
-      setDetailAspirasi((prev) =>
-        prev
-          ? {
-              ...prev,
-              status: newStatus,
-              tanggapanResmi: tanggapan || prev.tanggapanResmi,
-            }
-          : null
+      setAspirasiList((prev) =>
+        prev.map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                status: newStatus,
+                tanggapanResmi: tanggapan || item.tanggapanResmi,
+              }
+            : item
+        )
       );
+
+      if (detailAspirasi && detailAspirasi.id === id) {
+        setDetailAspirasi((prev) =>
+          prev
+            ? {
+                ...prev,
+                status: newStatus,
+                tanggapanResmi: tanggapan || prev.tanggapanResmi,
+              }
+            : null
+        );
+      }
+    } catch (err: any) {
+      alert(err.message || 'Gagal mengubah status. Pastikan PIN Admin valid.');
     }
   };
 
@@ -214,7 +249,8 @@ export default function HomePage() {
       {/* Top Navbar */}
       <Navbar
         isAdminMode={isAdminMode}
-        onToggleAdminMode={() => setIsAdminMode(!isAdminMode)}
+        onRequestAdminLogin={() => setIsAdminPinModalOpen(true)}
+        onLogoutAdmin={handleAdminLogout}
         onOpenCreateModal={() => setIsCreateOpen(true)}
         onResetData={handleReset}
         isNeon={isNeon}
@@ -347,6 +383,13 @@ export default function HomePage() {
         onClose={() => setIsDbModalOpen(false)}
         isNeon={isNeon}
         onRefreshStatus={loadData}
+      />
+
+      {/* Admin PIN Verification Modal */}
+      <AdminPinModal
+        isOpen={isAdminPinModalOpen}
+        onClose={() => setIsAdminPinModalOpen(false)}
+        onSuccess={handleAdminLoginSuccess}
       />
     </div>
   );

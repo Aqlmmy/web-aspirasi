@@ -5,6 +5,16 @@ export async function PATCH(
   request: NextRequest,
   props: { params: Promise<{ id: string }> }
 ) {
+  const expectedPin = (process.env.ADMIN_PIN || 'bem2026').trim();
+  const providedPin = request.headers.get('x-admin-pin') || '';
+
+  if (providedPin !== expectedPin) {
+    return NextResponse.json(
+      { error: 'Akses ditolak: Anda harus memasukkan PIN Admin yang valid untuk mengubah status.' },
+      { status: 401 }
+    );
+  }
+
   const sql = getDb();
   if (!sql) {
     return NextResponse.json({ fallback: true }, { status: 200 });

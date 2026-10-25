@@ -157,21 +157,28 @@ export async function updateAspirasiStatus(
   aspirasiId: string,
   newStatus: StatusAspirasi,
   tanggapan: TanggapanResmi | undefined,
-  isNeon: boolean
+  isNeon: boolean,
+  adminPin?: string
 ) {
   if (isNeon) {
     try {
       const res = await fetch(`/api/aspirasi/${aspirasiId}/status`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-pin': adminPin || '',
+        },
         body: JSON.stringify({ status: newStatus, tanggapan }),
       });
 
       if (res.ok) {
         return true;
       }
+      const err = await res.json();
+      throw new Error(err.error || 'Gagal mengubah status');
     } catch (err) {
-      console.warn('Gagal update status ke Neon, fallback ke LocalStorage:', err);
+      console.warn('Gagal update status ke Neon:', err);
+      throw err;
     }
   }
 
