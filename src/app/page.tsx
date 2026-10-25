@@ -8,14 +8,12 @@ import {
   toggleAspirasiVote,
   addAspirasiComment,
 } from '@/lib/api';
-import { resetDataToDefault } from '@/lib/storage';
 import { Navbar } from '@/components/Navbar';
 import { StatsBanner } from '@/components/StatsBanner';
 import { FilterBar } from '@/components/FilterBar';
 import { AspirasiCard } from '@/components/AspirasiCard';
 import { FormAspirasiModal } from '@/components/FormAspirasiModal';
 import { AspirasiDetailModal } from '@/components/AspirasiDetailModal';
-import { DatabaseModal } from '@/components/DatabaseModal';
 import { MessageSquareDashed, Plus } from 'lucide-react';
 
 export default function HomePage() {
@@ -32,7 +30,6 @@ export default function HomePage() {
   // Modals
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [detailAspirasi, setDetailAspirasi] = useState<Aspirasi | null>(null);
-  const [isDbModalOpen, setIsDbModalOpen] = useState(false);
 
   // Load initial data
   const loadData = useCallback(async () => {
@@ -121,14 +118,6 @@ export default function HomePage() {
     }
   };
 
-  const handleReset = () => {
-    if (confirm('Kembalikan semua data aspirasi ke data sampel bawaan?')) {
-      const reset = resetDataToDefault();
-      setAspirasiList(reset);
-      setDetailAspirasi(null);
-    }
-  };
-
   // Filtered & Sorted List
   const filteredList = useMemo(() => {
     let list = [...aspirasiList];
@@ -175,12 +164,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       {/* Top Navbar */}
-      <Navbar
-        onOpenCreateModal={() => setIsCreateOpen(true)}
-        onResetData={handleReset}
-        isNeon={isNeon}
-        onOpenDbModal={() => setIsDbModalOpen(true)}
-      />
+      <Navbar onOpenCreateModal={() => setIsCreateOpen(true)} />
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
@@ -258,14 +242,9 @@ export default function HomePage() {
             <span>— Portal Terbuka Aspirasi & Advokasi Kampus</span>
           </div>
           <div className="flex items-center space-x-4">
-            <span
-              onClick={() => setIsDbModalOpen(true)}
-              className="hover:text-indigo-600 cursor-pointer font-medium"
-            >
-              Database: {isNeon ? '⚡ Neon PostgreSQL' : '📁 LocalStorage'}
-            </span>
             <span className="hover:text-indigo-600 cursor-pointer">Panduan Advokasi</span>
             <span className="hover:text-indigo-600 cursor-pointer">Kebijakan Privasi</span>
+            <span className="hover:text-indigo-600 cursor-pointer">BEM Universitas</span>
           </div>
         </div>
       </footer>
@@ -293,13 +272,6 @@ export default function HomePage() {
         onClose={() => setDetailAspirasi(null)}
         onVote={handleVote}
         onAddComment={handleAddComment}
-      />
-
-      <DatabaseModal
-        isOpen={isDbModalOpen}
-        onClose={() => setIsDbModalOpen(false)}
-        isNeon={isNeon}
-        onRefreshStatus={loadData}
       />
     </div>
   );

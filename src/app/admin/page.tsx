@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Aspirasi, StatusAspirasi, TanggapanResmi } from '@/types';
 import { fetchAllAspirasi, updateAspirasiStatus } from '@/lib/api';
 import { AdminActionModal } from '@/components/AdminActionModal';
+import { DatabaseModal } from '@/components/DatabaseModal';
 import {
   ShieldCheck,
   Lock,
@@ -23,6 +24,7 @@ import {
   Sparkles,
   UserCheck,
   RefreshCw,
+  Database,
 } from 'lucide-react';
 
 const ADMIN_PIN_SESSION_KEY = 'suara_mahasiswa_admin_pin';
@@ -46,6 +48,7 @@ export default function AdminPortalPage() {
 
   // Modal
   const [selectedAspirasi, setSelectedAspirasi] = useState<Aspirasi | null>(null);
+  const [isDbModalOpen, setIsDbModalOpen] = useState(false);
 
   // Check saved session on mount
   useEffect(() => {
@@ -297,6 +300,21 @@ export default function AdminPortalPage() {
           </div>
 
           <div className="flex items-center space-x-3">
+            {/* Database Status Button */}
+            <button
+              onClick={() => setIsDbModalOpen(true)}
+              title="Cek status database Neon PostgreSQL"
+              className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+                isNeon
+                  ? 'bg-emerald-950/60 text-emerald-300 border-emerald-800 hover:bg-emerald-900/60'
+                  : 'bg-amber-950/60 text-amber-300 border-amber-800 hover:bg-amber-900/60'
+              }`}
+            >
+              <span className={`w-2 h-2 rounded-full ${isNeon ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+              <Database className="w-3.5 h-3.5" />
+              <span>{isNeon ? 'Neon PostgreSQL' : 'LocalStorage Mode'}</span>
+            </button>
+
             <Link
               href="/"
               target="_blank"
@@ -495,6 +513,14 @@ export default function AdminPortalPage() {
         isOpen={!!selectedAspirasi}
         onClose={() => setSelectedAspirasi(null)}
         onSave={handleSaveStatus}
+      />
+
+      {/* Database Status Modal */}
+      <DatabaseModal
+        isOpen={isDbModalOpen}
+        onClose={() => setIsDbModalOpen(false)}
+        isNeon={isNeon}
+        onRefreshStatus={loadData}
       />
     </div>
   );
