@@ -1,13 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Aspirasi, StatusAspirasi, TanggapanResmi } from '@/types';
+import { Aspirasi } from '@/types';
 import {
   fetchAllAspirasi,
   createNewAspirasi,
   toggleAspirasiVote,
   addAspirasiComment,
-  updateAspirasiStatus,
 } from '@/lib/api';
 import { resetDataToDefault } from '@/lib/storage';
 import { Navbar } from '@/components/Navbar';
@@ -16,18 +15,12 @@ import { FilterBar } from '@/components/FilterBar';
 import { AspirasiCard } from '@/components/AspirasiCard';
 import { FormAspirasiModal } from '@/components/FormAspirasiModal';
 import { AspirasiDetailModal } from '@/components/AspirasiDetailModal';
-import { AdminActionModal } from '@/components/AdminActionModal';
 import { DatabaseModal } from '@/components/DatabaseModal';
-import { AdminPinModal } from '@/components/AdminPinModal';
 import { MessageSquareDashed, Plus } from 'lucide-react';
-
-const ADMIN_PIN_SESSION_KEY = 'suara_mahasiswa_admin_pin';
 
 export default function HomePage() {
   const [aspirasiList, setAspirasiList] = useState<Aspirasi[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isAdminMode, setIsAdminMode] = useState(false);
-  const [adminPin, setAdminPin] = useState<string>('');
   const [isNeon, setIsNeon] = useState(false);
 
   // Filters & Sorting
@@ -39,18 +32,15 @@ export default function HomePage() {
   // Modals
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [detailAspirasi, setDetailAspirasi] = useState<Aspirasi | null>(null);
-  const [adminActionAspirasi, setAdminActionAspirasi] = useState<Aspirasi | null>(null);
   const [isDbModalOpen, setIsDbModalOpen] = useState(false);
-  const [isAdminPinModalOpen, setIsAdminPinModalOpen] = useState(false);
 
-  // Load initial data and restore admin session if any
+  // Load initial data
   const loadData = useCallback(async () => {
     const result = await fetchAllAspirasi();
     setAspirasiList(result.data);
     setIsNeon(result.isNeon);
     setIsLoaded(true);
 
-    // Keep detail modal synced if open
     if (detailAspirasi) {
       const refreshed = result.data.find((a) => a.id === detailAspirasi.id);
       if (refreshed) setDetailAspirasi(refreshed);
@@ -59,33 +49,7 @@ export default function HomePage() {
 
   useEffect(() => {
     loadData();
-
-    // Check saved admin session
-    if (typeof window !== 'undefined') {
-      const savedPin = sessionStorage.getItem(ADMIN_PIN_SESSION_KEY);
-      if (savedPin) {
-        setAdminPin(savedPin);
-        setIsAdminMode(true);
-      }
-    }
   }, []);
-
-  // Admin Auth Handlers
-  const handleAdminLoginSuccess = (pin: string) => {
-    setAdminPin(pin);
-    setIsAdminMode(true);
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem(ADMIN_PIN_SESSION_KEY, pin);
-    }
-  };
-
-  const handleAdminLogout = () => {
-    setAdminPin('');
-    setIsAdminMode(false);
-    if (typeof window !== 'undefined') {
-      sessionStorage.removeItem(ADMIN_PIN_SESSION_KEY);
-    }
-  };
 
   // Handlers
   const handleVote = async (id: string) => {
@@ -132,42 +96,6 @@ export default function HomePage() {
   ) => {
     const created = await createNewAspirasi(payload, isNeon);
     setAspirasiList((prev) => [created, ...prev]);
-  };
-
-  const handleAdminSave = async (
-    id: string,
-    newStatus: StatusAspirasi,
-    tanggapan?: TanggapanResmi
-  ) => {
-    try {
-      await updateAspirasiStatus(id, newStatus, tanggapan, isNeon, adminPin);
-
-      setAspirasiList((prev) =>
-        prev.map((item) =>
-          item.id === id
-            ? {
-                ...item,
-                status: newStatus,
-                tanggapanResmi: tanggapan || item.tanggapanResmi,
-              }
-            : item
-        )
-      );
-
-      if (detailAspirasi && detailAspirasi.id === id) {
-        setDetailAspirasi((prev) =>
-          prev
-            ? {
-                ...prev,
-                status: newStatus,
-                tanggapanResmi: tanggapan || prev.tanggapanResmi,
-              }
-            : null
-        );
-      }
-    } catch (err: any) {
-      alert(err.message || 'Gagal mengubah status. Pastikan PIN Admin valid.');
-    }
   };
 
   const handleAddComment = async (
@@ -248,9 +176,6 @@ export default function HomePage() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       {/* Top Navbar */}
       <Navbar
-        isAdminMode={isAdminMode}
-        onRequestAdminLogin={() => setIsAdminPinModalOpen(true)}
-        onLogoutAdmin={handleAdminLogout}
         onOpenCreateModal={() => setIsCreateOpen(true)}
         onResetData={handleReset}
         isNeon={isNeon}
@@ -311,10 +236,9 @@ export default function HomePage() {
               <AspirasiCard
                 key={aspirasi.id}
                 aspirasi={aspirasi}
-                isAdminMode={isAdminMode}
+                isAdminMode={false}
                 onVote={handleVote}
                 onOpenDetail={setDetailAspirasi}
-                onOpenAdminAction={setAdminActionAspirasi}
               />
             ))}
           </div>
@@ -371,25 +295,11 @@ export default function HomePage() {
         onAddComment={handleAddComment}
       />
 
-      <AdminActionModal
-        aspirasi={adminActionAspirasi}
-        isOpen={!!adminActionAspirasi}
-        onClose={() => setAdminActionAspirasi(null)}
-        onSave={handleAdminSave}
-      />
-
       <DatabaseModal
         isOpen={isDbModalOpen}
         onClose={() => setIsDbModalOpen(false)}
         isNeon={isNeon}
         onRefreshStatus={loadData}
-      />
-
-      {/* Admin PIN Verification Modal */}
-      <AdminPinModal
-        isOpen={isAdminPinModalOpen}
-        onClose={() => setIsAdminPinModalOpen(false)}
-        onSuccess={handleAdminLoginSuccess}
       />
     </div>
   );

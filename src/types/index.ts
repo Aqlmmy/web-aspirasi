@@ -35,6 +35,24 @@ export interface Komentar {
   tanggal: string;
 }
 
+export type UserRole = 'mahasiswa' | 'admin';
+
+export interface User {
+  id: string;
+  nama: string;
+  email: string;
+  nim?: string;
+  fakultas?: string;
+  prodi?: string;
+  role: UserRole;
+  createdAt?: string;
+}
+
+export interface AuthSession {
+  user: User;
+  token: string;
+}
+
 export interface Aspirasi {
   id: string;
   judul: string;
@@ -51,4 +69,6 @@ export interface Aspirasi {
   lampiranUrl?: string;
   tanggapanResmi?: TanggapanResmi;
   komentar: Komentar[];
+  userId?: string;
 }
+

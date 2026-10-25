@@ -20,15 +20,15 @@ import {
 
 interface AspirasiCardProps {
   aspirasi: Aspirasi;
-  isAdminMode: boolean;
+  isAdminMode?: boolean;
   onVote: (id: string) => void;
   onOpenDetail: (aspirasi: Aspirasi) => void;
-  onOpenAdminAction: (aspirasi: Aspirasi) => void;
+  onOpenAdminAction?: (aspirasi: Aspirasi) => void;
 }
 
 export const AspirasiCard: React.FC<AspirasiCardProps> = ({
   aspirasi,
-  isAdminMode,
+  isAdminMode = false,
   onVote,
   onOpenDetail,
   onOpenAdminAction,
@@ -191,7 +191,7 @@ export const AspirasiCard: React.FC<AspirasiCardProps> = ({
 
         {/* Right Buttons: Admin Action or View Detail */}
         <div className="flex items-center space-x-2">
-          {isAdminMode && (
+          {isAdminMode && onOpenAdminAction && (
             <button
               onClick={() => onOpenAdminAction(aspirasi)}
               className="inline-flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/10 text-amber-700 dark:text-amber-400 hover:bg-amber-500/20 transition-colors"
