@@ -138,10 +138,10 @@ export default function AdminPortalPage() {
         prev.map((item) =>
           item.id === id
             ? {
-                ...item,
-                status: newStatus,
-                tanggapanResmi: tanggapan || item.tanggapanResmi,
-              }
+              ...item,
+              status: newStatus,
+              tanggapanResmi: tanggapan || item.tanggapanResmi,
+            }
             : item
         )
       );
@@ -193,19 +193,19 @@ export default function AdminPortalPage() {
   // ==========================================
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-slate-900 flex flex-col justify-center items-center p-4">
-        <div className="w-full max-w-md bg-slate-800/90 backdrop-blur-xl border border-slate-700/80 rounded-3xl p-8 shadow-2xl space-y-6">
+      <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4 font-sans">
+        <div className="w-full max-w-md bg-white border border-slate-200 rounded-xl p-7 shadow-xs space-y-6">
           {/* Logo & Header */}
-          <div className="text-center space-y-3">
-            <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-500 to-amber-600 flex items-center justify-center text-white shadow-xl shadow-amber-500/25">
-              <ShieldCheck className="w-7 h-7" />
+          <div className="text-center space-y-2.5">
+            <div className="w-11 h-11 mx-auto rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold shadow-xs">
+              <ShieldCheck className="w-6 h-6 text-slate-100" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white tracking-tight">
-                Portal Advokasi & Pengelola BEM
+              <h1 className="text-lg font-bold text-slate-900 tracking-tight">
+                Portal Advokasi & Pengurus BEM
               </h1>
-              <p className="text-xs text-slate-400 mt-1">
-                Area khusus otentikasi pengurus advokasi & kebijakan kampus
+              <p className="text-xs text-slate-500 mt-0.5">
+                Verifikasi akses untuk meninjau dan menindaklanjuti aspirasi mahasiswa
               </p>
             </div>
           </div>
@@ -213,18 +213,18 @@ export default function AdminPortalPage() {
           {/* Form */}
           <form onSubmit={handleLogin} className="space-y-4">
             {loginError && (
-              <div className="p-3 rounded-xl bg-red-950/60 border border-red-800 text-red-300 text-xs flex items-center space-x-2">
+              <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center space-x-2">
                 <AlertTriangle className="w-4 h-4 shrink-0" />
                 <span>{loginError}</span>
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                PIN Admin Rahasia
+              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                PIN Pengurus
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -233,38 +233,38 @@ export default function AdminPortalPage() {
                   onChange={(e) => setPinInput(e.target.value)}
                   placeholder="Masukkan PIN Admin..."
                   autoFocus
-                  className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-700 bg-slate-900/80 text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all placeholder:text-slate-500"
+                  className="w-full pl-9 pr-9 py-2 text-xs rounded-lg border border-slate-200 bg-slate-50/70 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-colors placeholder:text-slate-400"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPin(!showPin)}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-200"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600"
                 >
                   {showPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              <p className="mt-1.5 text-[11px] text-slate-400">
-                *PIN bawaan default: <code className="bg-slate-900 px-1 py-0.5 rounded text-amber-300">bem2026</code>
+              <p className="mt-1.5 text-[11px] text-slate-500">
+                PIN bawaan sistem: <code className="bg-slate-100 px-1.5 py-0.5 rounded text-slate-800 font-mono text-[11px]">bem2026</code>
               </p>
             </div>
 
             <button
               type="submit"
               disabled={isVerifying || !pinInput.trim()}
-              className="w-full py-3 px-4 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 shadow-lg shadow-amber-600/30 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-2.5 px-4 rounded-lg font-semibold text-xs text-white bg-slate-900 hover:bg-slate-800 active:bg-slate-950 shadow-xs transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isVerifying ? 'Memverifikasi Akses...' : 'Masuk ke Dashboard BEM'}
+              {isVerifying ? 'Memverifikasi...' : 'Masuk ke Dashboard BEM'}
             </button>
           </form>
 
           {/* Footer link to public website */}
-          <div className="text-center pt-2 border-t border-slate-700/60">
+          <div className="text-center pt-2 border-t border-slate-100">
             <Link
               href="/"
-              className="inline-flex items-center space-x-1.5 text-xs text-slate-400 hover:text-white transition-colors"
+              className="inline-flex items-center space-x-1.5 text-xs text-slate-500 hover:text-slate-900 transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Kembali ke Halaman Mahasiswa</span>
+              <span>Kembali ke Halaman Utama Mahasiswa</span>
             </Link>
           </div>
         </div>
@@ -276,57 +276,57 @@ export default function AdminPortalPage() {
   // VIEW 2: AUTHENTICATED ADMIN DASHBOARD
   // ==========================================
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
       {/* Top Admin Navbar */}
-      <header className="sticky top-0 z-40 w-full border-b border-slate-800 bg-slate-900/90 backdrop-blur-md">
+      <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center text-white shadow-md shadow-amber-500/20">
-              <ShieldCheck className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-lg bg-slate-900 flex items-center justify-center text-white shadow-xs">
+              <ShieldCheck className="w-5 h-5 text-slate-100" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="font-extrabold text-base tracking-tight text-white">
+                <span className="font-bold text-base tracking-tight text-slate-900">
                   Dashboard Advokasi BEM
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                  Pengelola Terverifikasi
+                <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+                  Pengurus Aktif
                 </span>
               </div>
-              <p className="text-xs text-slate-400 hidden sm:block">
-                Verifikasi tiket keluhan & publikasikan tanggapan resmi
+              <p className="text-xs text-slate-500 hidden sm:block">
+                Verifikasi tiket keluhan mahasiswa & publikasikan tanggapan resmi
               </p>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             {/* Database Status Button */}
             <button
               onClick={() => setIsDbModalOpen(true)}
               title="Cek status database Neon PostgreSQL"
-              className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+              className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
                 isNeon
-                  ? 'bg-emerald-950/60 text-emerald-300 border-emerald-800 hover:bg-emerald-900/60'
-                  : 'bg-amber-950/60 text-amber-300 border-amber-800 hover:bg-amber-900/60'
+                  ? 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100'
+                  : 'bg-amber-50 text-amber-800 border-amber-200 hover:bg-amber-100'
               }`}
             >
-              <span className={`w-2 h-2 rounded-full ${isNeon ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+              <span className={`w-2 h-2 rounded-full ${isNeon ? 'bg-emerald-500' : 'bg-amber-500'}`} />
               <Database className="w-3.5 h-3.5" />
-              <span>{isNeon ? 'Neon PostgreSQL' : 'LocalStorage Mode'}</span>
+              <span className="hidden sm:inline">{isNeon ? 'Neon PostgreSQL' : 'LocalStorage Mode'}</span>
             </button>
 
             <Link
               href="/"
               target="_blank"
-              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors"
+              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors"
             >
-              <ExternalLink className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Lihat Web Publik</span>
+              <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+              <span className="hidden sm:inline">Web Publik</span>
             </Link>
 
             <button
               onClick={handleLogout}
-              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-red-950/60 hover:bg-red-900/70 text-red-300 border border-red-800/80 transition-colors"
+              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition-colors"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>Keluar</span>
@@ -336,49 +336,49 @@ export default function AdminPortalPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 space-y-5">
         {/* Metric Overview Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
-            <p className="text-xs text-slate-400">Total Tiket Masuk</p>
-            <p className="text-2xl font-black text-white mt-1">{stats.total}</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5">
+          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs">
+            <p className="text-xs text-slate-500 font-medium">Total Tiket Masuk</p>
+            <p className="text-2xl font-bold tracking-tight text-slate-900 mt-1">{stats.total}</p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-amber-950/30 border border-amber-800/40">
+          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs">
             <div className="flex items-center justify-between">
-              <p className="text-xs text-amber-400 font-semibold">Menunggu Verifikasi</p>
-              <Clock className="w-4 h-4 text-amber-400" />
+              <p className="text-xs text-amber-800 font-medium">Menunggu Verifikasi</p>
+              <Clock className="w-4 h-4 text-amber-600" />
             </div>
-            <p className="text-2xl font-black text-amber-300 mt-1">{stats.menunggu}</p>
+            <p className="text-2xl font-bold tracking-tight text-amber-700 mt-1">{stats.menunggu}</p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-blue-950/30 border border-blue-800/40">
+          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs">
             <div className="flex items-center justify-between">
-              <p className="text-xs text-blue-400 font-semibold">Sedang Ditindaklanjuti</p>
-              <Sparkles className="w-4 h-4 text-blue-400" />
+              <p className="text-xs text-blue-800 font-medium">Sedang Ditindaklanjuti</p>
+              <Clock className="w-4 h-4 text-blue-600" />
             </div>
-            <p className="text-2xl font-black text-blue-300 mt-1">{stats.diproses}</p>
+            <p className="text-2xl font-bold tracking-tight text-blue-700 mt-1">{stats.diproses}</p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-800/40">
+          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs">
             <div className="flex items-center justify-between">
-              <p className="text-xs text-emerald-400 font-semibold">Terselesaikan</p>
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <p className="text-xs text-emerald-800 font-medium">Terselesaikan</p>
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
             </div>
-            <p className="text-2xl font-black text-emerald-300 mt-1">{stats.selesai}</p>
+            <p className="text-2xl font-bold tracking-tight text-emerald-700 mt-1">{stats.selesai}</p>
           </div>
         </div>
 
         {/* Filter and Search Bar */}
-        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col md:flex-row gap-3 items-center justify-between">
+        <div className="p-3.5 rounded-xl bg-white border border-slate-200/90 shadow-xs flex flex-col md:flex-row gap-3 items-center justify-between">
           <div className="relative w-full md:w-80">
-            <Search className="w-4 h-4 absolute left-3.5 top-3 text-slate-500" />
+            <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-400" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari aspirasi, nama mahasiswa, lokasi..."
-              className="w-full pl-10 pr-4 py-2 text-xs rounded-xl bg-slate-950 border border-slate-700 text-white focus:outline-none focus:ring-1 focus:ring-amber-500 placeholder:text-slate-500"
+              placeholder="Cari aspirasi, pelapor, lokasi..."
+              className="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg bg-slate-50/70 border border-slate-200 text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-slate-400 placeholder:text-slate-400 transition-colors"
             />
           </div>
 
@@ -386,7 +386,7 @@ export default function AdminPortalPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 text-xs rounded-xl bg-slate-950 border border-slate-700 text-slate-200 focus:outline-none focus:ring-1 focus:ring-amber-500"
+              className="px-3 py-1.5 text-xs rounded-lg bg-white border border-slate-200 text-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-400"
             >
               <option value="Semua Status">Semua Status</option>
               <option value="Menunggu Verifikasi">Menunggu Verifikasi</option>
@@ -398,7 +398,7 @@ export default function AdminPortalPage() {
             <select
               value={kategoriFilter}
               onChange={(e) => setKategoriFilter(e.target.value)}
-              className="px-3 py-2 text-xs rounded-xl bg-slate-950 border border-slate-700 text-slate-200 focus:outline-none focus:ring-1 focus:ring-amber-500"
+              className="px-3 py-1.5 text-xs rounded-lg bg-white border border-slate-200 text-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-400"
             >
               <option value="Semua Kategori">Semua Kategori</option>
               <option value="Fasilitas & Sarpras">Fasilitas & Sarpras</option>
@@ -411,7 +411,7 @@ export default function AdminPortalPage() {
             <button
               onClick={loadData}
               title="Refresh Data"
-              className="p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white transition-colors"
+              className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
             >
               <RefreshCw className="w-4 h-4" />
             </button>
@@ -421,60 +421,59 @@ export default function AdminPortalPage() {
         {/* Aspirations Management Table */}
         {!isLoaded ? (
           <div className="py-20 text-center">
-            <div className="inline-block w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
-            <p className="mt-3 text-xs text-slate-500">Memuat data tiket aspirasi...</p>
+            <div className="inline-block w-7 h-7 border-3 border-slate-300 border-t-slate-800 rounded-full animate-spin"></div>
+            <p className="mt-3 text-xs text-slate-500 font-medium">Memuat data tiket aspirasi...</p>
           </div>
         ) : filteredList.length === 0 ? (
-          <div className="p-12 text-center rounded-2xl border border-dashed border-slate-800 bg-slate-900/50">
-            <p className="text-sm text-slate-400 font-semibold">Tidak ada aspirasi ditemukan.</p>
+          <div className="p-12 text-center rounded-xl border border-dashed border-slate-300 bg-white">
+            <p className="text-xs text-slate-500 font-medium">Tidak ada tiket aspirasi yang sesuai filter.</p>
           </div>
         ) : (
           <div className="space-y-3">
             {filteredList.map((item) => (
               <div
                 key={item.id}
-                className="p-5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+                className="p-5 rounded-xl bg-white border border-slate-200/90 shadow-xs hover:border-slate-300 transition-colors flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
               >
                 <div className="space-y-2 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${
+                      className={`text-xs font-medium px-2 py-0.5 rounded ${
                         item.status === 'Selesai'
-                          ? 'bg-emerald-950 text-emerald-300 border border-emerald-800'
+                          ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
                           : item.status === 'Sedang Ditindaklanjuti'
-                          ? 'bg-blue-950 text-blue-300 border border-blue-800'
+                          ? 'bg-amber-50 text-amber-800 border border-amber-200'
                           : item.status === 'Ditolak'
-                          ? 'bg-red-950 text-red-300 border border-red-800'
-                          : 'bg-amber-950 text-amber-300 border border-amber-800'
+                          ? 'bg-rose-50 text-rose-800 border border-rose-200'
+                          : 'bg-slate-100 text-slate-700 border border-slate-200'
                       }`}
                     >
                       {item.status}
                     </span>
 
-                    <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-800 text-slate-300">
+                    <span className="text-xs font-medium px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
                       {item.kategori}
                     </span>
 
-                    <span
-                      className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
-                        item.urgensi === 'Darurat'
-                          ? 'bg-red-500/20 text-red-400'
-                          : item.urgensi === 'Tinggi'
-                          ? 'bg-orange-500/20 text-orange-400'
-                          : 'bg-slate-800 text-slate-400'
-                      }`}
-                    >
-                      Urgensi: {item.urgensi}
-                    </span>
+                    {item.urgensi === 'Darurat' && (
+                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200">
+                        Darurat
+                      </span>
+                    )}
+                    {item.urgensi === 'Tinggi' && (
+                      <span className="text-[11px] font-medium px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200">
+                        Urgensi Tinggi
+                      </span>
+                    )}
                   </div>
 
-                  <h3 className="text-base font-bold text-white">{item.judul}</h3>
-                  <p className="text-xs text-slate-400 line-clamp-2">{item.deskripsi}</p>
+                  <h3 className="text-base font-bold text-slate-900 leading-snug">{item.judul}</h3>
+                  <p className="text-xs sm:text-sm text-slate-600 line-clamp-2 leading-relaxed">{item.deskripsi}</p>
 
-                  <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 pt-1">
+                  <div className="flex flex-wrap items-center gap-3.5 text-xs text-slate-500 pt-1">
                     <span>
                       Pelapor:{' '}
-                      <strong className="text-slate-300">
+                      <strong className="text-slate-800 font-medium">
                         {item.isAnonim ? 'Mahasiswa Anonim' : item.penulis?.nama || 'Resmi'}
                       </strong>
                     </span>
@@ -485,8 +484,8 @@ export default function AdminPortalPage() {
                   </div>
 
                   {item.tanggapanResmi && (
-                    <div className="mt-2 p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300">
-                      <span className="font-semibold text-amber-400">Tanggapan BEM: </span>
+                    <div className="mt-2 p-2.5 rounded-r-lg bg-emerald-50/50 border-l-2 border-emerald-600 text-xs text-slate-700">
+                      <span className="font-semibold text-emerald-800">Tanggapan BEM: </span>
                       {item.tanggapanResmi.pesan}
                     </div>
                   )}
@@ -495,9 +494,9 @@ export default function AdminPortalPage() {
                 <div className="shrink-0">
                   <button
                     onClick={() => setSelectedAspirasi(item)}
-                    className="px-4 py-2.5 rounded-xl text-xs font-semibold bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white shadow-md shadow-amber-600/20 transition-all active:scale-95 flex items-center space-x-1.5"
+                    className="px-3.5 py-2 rounded-lg text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-white shadow-xs transition-colors flex items-center space-x-1.5"
                   >
-                    <ShieldCheck className="w-4 h-4" />
+                    <ShieldCheck className="w-4 h-4 text-slate-200" />
                     <span>Tindak Lanjuti</span>
                   </button>
                 </div>

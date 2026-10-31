@@ -13,7 +13,6 @@ import {
   CheckCircle2,
   Clock,
   Send,
-  AlertCircle,
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -52,45 +51,45 @@ export const AspirasiDetailModal: React.FC<AspirasiDetailModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 sm:p-8 my-8 max-h-[90vh] overflow-y-auto transition-all">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs overflow-y-auto font-sans">
+      <div className="relative w-full max-w-xl bg-white rounded-xl border border-slate-200 shadow-xl p-6 my-8 max-h-[90vh] overflow-y-auto transition-all">
         {/* Header */}
-        <div className="flex items-start justify-between pb-4 border-b border-slate-100 dark:border-slate-800 gap-4">
+        <div className="flex items-start justify-between pb-3.5 border-b border-slate-100 gap-4">
           <div>
             <div className="flex items-center space-x-2 mb-2">
-              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300">
+              <span className="text-xs font-medium px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
                 {aspirasi.kategori}
               </span>
-              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+              <span className="text-xs font-medium px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
                 Status: {aspirasi.status}
               </span>
             </div>
-            <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white leading-snug">
+            <h2 className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
               {aspirasi.judul}
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0"
+            className="p-1 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors shrink-0"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Reporter info & Metadata */}
-        <div className="flex flex-wrap items-center gap-y-2 gap-x-4 py-3 text-xs text-slate-500 dark:text-slate-400 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex flex-wrap items-center gap-y-2 gap-x-3.5 py-2.5 text-xs text-slate-500 border-b border-slate-100">
           <div className="flex items-center space-x-1.5 font-medium">
             {aspirasi.isAnonim ? (
               <>
-                <ShieldCheck className="w-4 h-4 text-indigo-500" />
-                <span className="text-indigo-600 dark:text-indigo-400 font-semibold">
+                <ShieldCheck className="w-3.5 h-3.5 text-slate-500" />
+                <span className="text-slate-700 font-medium">
                   Mahasiswa Anonim
                 </span>
               </>
             ) : (
               <>
-                <User className="w-4 h-4 text-slate-400" />
-                <span>
+                <User className="w-3.5 h-3.5 text-slate-400" />
+                <span className="text-slate-700 font-medium">
                   {aspirasi.penulis?.nama} ({aspirasi.penulis?.nim}) - {aspirasi.penulis?.prodi}
                 </span>
               </>
@@ -99,51 +98,48 @@ export const AspirasiDetailModal: React.FC<AspirasiDetailModalProps> = ({
 
           {aspirasi.lokasi && (
             <div className="flex items-center space-x-1">
-              <MapPin className="w-4 h-4 text-slate-400" />
+              <MapPin className="w-3.5 h-3.5 text-slate-400" />
               <span>{aspirasi.lokasi}</span>
             </div>
           )}
 
           <div className="flex items-center space-x-1">
-            <Calendar className="w-4 h-4 text-slate-400" />
+            <Calendar className="w-3.5 h-3.5 text-slate-400" />
             <span>{aspirasi.tanggal}</span>
           </div>
         </div>
 
         {/* Body Content */}
         <div className="py-4 space-y-4">
-          <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line">
+          <p className="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line">
             {aspirasi.deskripsi}
           </p>
 
           {/* Photo attachment if available */}
           {aspirasi.lampiranUrl && (
-            <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 max-h-72">
+            <div className="rounded-lg overflow-hidden border border-slate-200 max-h-64">
               <Image
                 src={aspirasi.lampiranUrl}
                 alt="Foto Bukti Aspirasi"
                 width={800}
                 height={400}
-                className="w-full h-64 object-cover"
+                className="w-full h-56 object-cover"
                 unoptimized
               />
             </div>
           )}
 
           {/* Upvote & Engagement Bar */}
-          <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800">
-            <div className="flex items-center space-x-2 text-xs text-slate-600 dark:text-slate-400">
-              <span className="font-semibold text-slate-900 dark:text-white">
-                {aspirasi.upvotes} Mahasiswa
-              </span>{' '}
-              mendukung aspirasi ini
+          <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-200/80">
+            <div className="text-xs text-slate-600">
+              <strong className="text-slate-900 font-semibold">{aspirasi.upvotes} Mahasiswa</strong> telah mendukung laporan ini
             </div>
             <button
               onClick={() => onVote(aspirasi.id)}
-              className={`inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                 aspirasi.hasUpvoted
-                  ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
-                  : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 hover:border-indigo-400'
+                  ? 'bg-slate-900 text-white'
+                  : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
               }`}
             >
               <ThumbsUp className={`w-3.5 h-3.5 ${aspirasi.hasUpvoted ? 'fill-current' : ''}`} />
@@ -153,82 +149,79 @@ export const AspirasiDetailModal: React.FC<AspirasiDetailModalProps> = ({
 
           {/* Official University / BEM Response */}
           {aspirasi.tanggapanResmi ? (
-            <div className="p-4 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200/70 dark:border-emerald-800/50 space-y-2">
-              <div className="flex items-center space-x-2 text-emerald-800 dark:text-emerald-300 font-bold text-sm">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <div className="p-3.5 rounded-lg bg-emerald-50/50 border border-emerald-200/80 space-y-1.5">
+              <div className="flex items-center space-x-1.5 text-emerald-800 font-semibold text-xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                 <span>Tanggapan Resmi Pihak Kampus / BEM</span>
               </div>
-              <p className="text-xs text-emerald-700 dark:text-emerald-400 font-medium">
-                Oleh: {aspirasi.tanggapanResmi.penanggap} ({aspirasi.tanggapanResmi.jabatan}) •{' '}
-                {aspirasi.tanggapanResmi.tanggal}
+              <p className="text-[11px] text-emerald-700">
+                Oleh: {aspirasi.tanggapanResmi.penanggap} ({aspirasi.tanggapanResmi.jabatan}) • {aspirasi.tanggapanResmi.tanggal}
               </p>
-              <p className="text-sm text-slate-800 dark:text-slate-200 bg-white/70 dark:bg-slate-900/60 p-3 rounded-xl border border-emerald-100 dark:border-emerald-900/40 leading-relaxed">
+              <p className="text-xs text-slate-800 bg-white p-2.5 rounded-md border border-emerald-100 leading-relaxed italic">
                 &quot;{aspirasi.tanggapanResmi.pesan}&quot;
               </p>
             </div>
           ) : (
-            <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-dashed border-slate-300 dark:border-slate-700 flex items-center space-x-2 text-xs text-slate-500 dark:text-slate-400">
-              <Clock className="w-4 h-4 text-amber-500 shrink-0" />
+            <div className="p-3 rounded-lg bg-slate-50 border border-dashed border-slate-300 flex items-center space-x-2 text-xs text-slate-500">
+              <Clock className="w-4 h-4 text-slate-400 shrink-0" />
               <span>
-                Aspirasi ini sedang dalam antrean verifikasi/advokasi dan belum menerima tanggapan
-                resmi dari pihak biro terkait.
+                Aspirasi ini sedang dalam proses verifikasi tim advokasi BEM dan belum memiliki tanggapan resmi.
               </span>
             </div>
           )}
         </div>
 
         {/* Discussion / Comments Section */}
-        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-4">
-          <div className="flex items-center space-x-2">
-            <MessageSquare className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-              Ruang Diskusi & Dukungan Mahasiswa ({aspirasi.komentar.length})
+        <div className="pt-3.5 border-t border-slate-100 space-y-3">
+          <div className="flex items-center space-x-1.5">
+            <MessageSquare className="w-4 h-4 text-slate-600" />
+            <h3 className="text-xs font-bold text-slate-900">
+              Komentar & Penguatan Mahasiswa ({aspirasi.komentar.length})
             </h3>
           </div>
 
           {/* Comment list */}
-          <div className="space-y-2.5 max-h-56 overflow-y-auto pr-1">
+          <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
             {aspirasi.komentar.length === 0 ? (
-              <p className="text-xs text-slate-400 italic py-2">
-                Belum ada komentar. Jadilah yang pertama memberikan masukan atau memperkuat
-                aspirasi ini!
+              <p className="text-xs text-slate-400 italic py-1">
+                Belum ada tanggapan rekan mahasiswa.
               </p>
             ) : (
               aspirasi.komentar.map((c) => (
                 <div
                   key={c.id}
-                  className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 text-xs space-y-1"
+                  className="p-2.5 rounded-lg bg-slate-50 border border-slate-200/80 text-xs space-y-0.5"
                 >
-                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
-                    <span className="font-semibold text-slate-800 dark:text-slate-200">
-                      {c.isAnonim ? '🛡️ Mahasiswa Anonim' : c.nama}
+                  <div className="flex items-center justify-between text-slate-500 text-[11px]">
+                    <span className="font-semibold text-slate-800">
+                      {c.isAnonim ? 'Mahasiswa Anonim' : c.nama}
                     </span>
-                    <span className="text-[10px]">{c.tanggal}</span>
+                    <span>{c.tanggal}</span>
                   </div>
-                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">{c.pesan}</p>
+                  <p className="text-slate-700 leading-relaxed">{c.pesan}</p>
                 </div>
               ))
             )}
           </div>
 
           {/* Add comment form */}
-          <form onSubmit={handleCommentSubmit} className="pt-2 space-y-2.5">
+          <form onSubmit={handleCommentSubmit} className="pt-1.5 space-y-2">
             <textarea
               rows={2}
               value={komentarText}
               onChange={(e) => setKomentarText(e.target.value)}
-              placeholder="Tuliskan komentar atau penguatan fakta lapangan..."
-              className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              placeholder="Tuliskan pengalaman atau fakta pendukung..."
+              className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-slate-200 bg-slate-50/70 text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-slate-400"
             />
             <div className="flex items-center justify-between gap-2">
-              <label className="flex items-center space-x-2 text-xs text-slate-600 dark:text-slate-400 cursor-pointer">
+              <label className="flex items-center space-x-1.5 text-xs text-slate-600 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={isAnonimComment}
                   onChange={(e) => setIsAnonimComment(e.target.checked)}
-                  className="rounded text-indigo-600 w-3.5 h-3.5 cursor-pointer"
+                  className="rounded text-slate-900 w-3.5 h-3.5 cursor-pointer"
                 />
-                <span>Komentar Anonim</span>
+                <span className="text-[11px]">Anonim</span>
               </label>
 
               {!isAnonimComment && (
@@ -237,14 +230,14 @@ export const AspirasiDetailModal: React.FC<AspirasiDetailModalProps> = ({
                   value={commenterName}
                   onChange={(e) => setCommenterName(e.target.value)}
                   placeholder="Nama Anda"
-                  className="px-2 py-1 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 w-36"
+                  className="px-2 py-1 text-xs rounded border border-slate-200 bg-white w-32"
                 />
               )}
 
               <button
                 type="submit"
                 disabled={!komentarText.trim()}
-                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 transition-all"
+                className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 disabled:opacity-40 transition-colors"
               >
                 <Send className="w-3 h-3" />
                 <span>Kirim</span>
@@ -256,3 +249,4 @@ export const AspirasiDetailModal: React.FC<AspirasiDetailModalProps> = ({
     </div>
   );
 };
+

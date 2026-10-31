@@ -82,59 +82,59 @@ export const FormAspirasiModal: React.FC<FormAspirasiModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 sm:p-8 my-8 transition-all">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs overflow-y-auto font-sans">
+      <div className="relative w-full max-w-xl bg-white rounded-xl border border-slate-200 shadow-xl p-6 my-8 transition-all">
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
           <div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-              Sampaikan Aspirasi Baru
+            <h3 className="text-base font-bold text-slate-900">
+              Formulir Aspirasi Mahasiswa
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Suaramu akan diteruskan ke perwakilan BEM dan unit kampus terkait
+            <p className="text-xs text-slate-500 mt-0.5">
+              Laporan akan diterima oleh departemen advokasi BEM KM
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="p-1 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {errorMsg && (
-          <div className="mt-4 p-3 rounded-xl bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800/60 flex items-center space-x-2 text-xs text-red-600 dark:text-red-300">
+          <div className="mt-3.5 p-3 rounded-lg bg-rose-50 border border-rose-200 flex items-center space-x-2 text-xs text-rose-700">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{errorMsg}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+        <form onSubmit={handleSubmit} className="mt-4 space-y-3.5">
           {/* Judul Aspirasi */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-              Judul Aspirasi / Pokok Keluhan <span className="text-red-500">*</span>
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
+              Judul Aspirasi / Pokok Masalah <span className="text-rose-500">*</span>
             </label>
             <input
               type="text"
               required
               value={judul}
               onChange={(e) => setJudul(e.target.value)}
-              placeholder="Contoh: AC Gedung B Lantai 2 Sering Mati dan Bocor"
-              className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              placeholder="Contoh: Lampu dan Proyektor Ruang 304 Gedung B Rusak"
+              className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 bg-slate-50/70 text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-slate-400"
             />
           </div>
 
           {/* Kategori & Urgensi Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Kategori
               </label>
               <select
                 value={kategori}
                 onChange={(e) => setKategori(e.target.value as KategoriAspirasi)}
-                className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-400"
               >
                 <option value="Fasilitas & Sarpras">Fasilitas & Sarpras</option>
                 <option value="Akademik & Perkuliahan">Akademik & Perkuliahan</option>
@@ -145,17 +145,17 @@ export const FormAspirasiModal: React.FC<FormAspirasiModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Tingkat Urgensi
               </label>
               <select
                 value={urgensi}
                 onChange={(e) => setUrgensi(e.target.value as TingkatUrgensi)}
-                className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-slate-200 bg-white text-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-400"
               >
-                <option value="Rendah">Rendah (Usulan Santai)</option>
+                <option value="Rendah">Rendah (Usulan Biasa)</option>
                 <option value="Sedang">Sedang (Perlu Perhatian)</option>
-                <option value="Tinggi">Tinggi (Mengganggu Perkuliahan)</option>
+                <option value="Tinggi">Tinggi (Mengganggu Belajar)</option>
                 <option value="Darurat">Darurat (Membahayakan/Kritis)</option>
               </select>
             </div>
@@ -163,57 +163,57 @@ export const FormAspirasiModal: React.FC<FormAspirasiModalProps> = ({
 
           {/* Lokasi */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-              Lokasi Kejadian / Ruang (Opsional)
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
+              Lokasi / Ruang Spesifik (Opsional)
             </label>
             <input
               type="text"
               value={lokasi}
               onChange={(e) => setLokasi(e.target.value)}
               placeholder="Contoh: Gedung Kuliah Bersama Lt. 3 Ruang 304"
-              className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              className="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-200 bg-slate-50/70 text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-slate-400"
             />
           </div>
 
           {/* Deskripsi Lengkap */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-              Deskripsi Masalah & Harapan Solusi <span className="text-red-500">*</span>
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
+              Deskripsi Detail & Harapan Solusi <span className="text-rose-500">*</span>
             </label>
             <textarea
               required
-              rows={4}
+              rows={3}
               value={deskripsi}
               onChange={(e) => setDeskripsi(e.target.value)}
-              placeholder="Jelaskan secara kronologis masalah yang dihadapi dan apa yang diharapkan dari pihak kampus..."
-              className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              placeholder="Jelaskan kendala yang dialami secara rinci dan apa perbaikan yang diharapkan dari pihak kampus..."
+              className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 bg-slate-50/70 text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-slate-400 leading-relaxed"
             />
           </div>
 
-          {/* Lampiran Gambar (URL / Preset) */}
-          <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/60 space-y-2">
-            <div className="flex items-center space-x-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300">
-              <ImageIcon className="w-4 h-4 text-indigo-500" />
-              <span>Foto Bukti Lampiran (Opsional)</span>
+          {/* Lampiran Gambar */}
+          <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-2">
+            <div className="flex items-center space-x-1.5 text-xs font-semibold text-slate-700">
+              <ImageIcon className="w-4 h-4 text-slate-500" />
+              <span>Foto / Bukti Lampiran (Opsional)</span>
             </div>
             <input
               type="url"
               value={lampiranUrl}
               onChange={(e) => setLampiranUrl(e.target.value)}
-              placeholder="Tempel tautan gambar (https://...) atau pilih contoh di bawah"
-              className="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none"
+              placeholder="Tempel link URL foto atau pilih contoh di bawah"
+              className="w-full px-2.5 py-1.5 text-xs rounded-md border border-slate-200 bg-white text-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-400"
             />
             {/* Quick preset picker */}
-            <div className="flex flex-wrap gap-1.5 pt-1">
+            <div className="flex flex-wrap gap-1 pt-0.5">
               {PRESET_IMAGES.map((img, i) => (
                 <button
                   type="button"
                   key={i}
                   onClick={() => setLampiranUrl(img.url)}
-                  className={`text-[10px] px-2 py-1 rounded-md border transition-all ${
+                  className={`text-[10px] px-2 py-0.5 rounded border transition-colors ${
                     lampiranUrl === img.url
-                      ? 'bg-indigo-600 text-white border-indigo-600'
-                      : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:border-slate-400'
+                      ? 'bg-slate-900 text-white border-slate-900'
+                      : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
                   }`}
                 >
                   {img.label}
@@ -223,16 +223,16 @@ export const FormAspirasiModal: React.FC<FormAspirasiModalProps> = ({
           </div>
 
           {/* Privacy & Anonim Toggle */}
-          <div className="p-4 rounded-2xl border border-indigo-100 dark:border-indigo-900/50 bg-indigo-50/40 dark:bg-indigo-950/20 space-y-3">
+          <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50/60 space-y-3">
             <label className="flex items-center justify-between cursor-pointer">
               <div className="flex items-center space-x-2.5">
-                <ShieldCheck className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                <ShieldCheck className="w-4 h-4 text-slate-700" />
                 <div>
-                  <span className="text-sm font-bold text-slate-900 dark:text-white">
-                    Kirim sebagai Mahasiswa Anonim
+                  <span className="text-xs font-bold text-slate-900">
+                    Sampaikan secara Anonim
                   </span>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Nama & NIM Anda tidak akan ditampilkan ke publik maupun pengelola
+                  <p className="text-[11px] text-slate-500">
+                    Identitas Anda tidak akan dicantumkan pada tiket publik
                   </p>
                 </div>
               </div>
@@ -240,15 +240,15 @@ export const FormAspirasiModal: React.FC<FormAspirasiModalProps> = ({
                 type="checkbox"
                 checked={isAnonim}
                 onChange={(e) => setIsAnonim(e.target.checked)}
-                className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                className="w-4 h-4 rounded text-slate-900 focus:ring-slate-900 cursor-pointer"
               />
             </label>
 
             {/* Non-anonymous Inputs */}
             {!isAnonim && (
-              <div className="pt-3 border-t border-indigo-100 dark:border-indigo-900/50 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="pt-2.5 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div>
-                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                  <label className="block text-[11px] font-medium text-slate-700 mb-1">
                     Nama Lengkap *
                   </label>
                   <input
@@ -256,23 +256,23 @@ export const FormAspirasiModal: React.FC<FormAspirasiModalProps> = ({
                     value={nama}
                     onChange={(e) => setNama(e.target.value)}
                     placeholder="Nama mahasiswa"
-                    className="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800"
+                    className="w-full px-2.5 py-1.5 text-xs rounded-md border border-slate-200 bg-white"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
-                    NIM / Nomor Pokok Mahasiswa *
+                  <label className="block text-[11px] font-medium text-slate-700 mb-1">
+                    NIM *
                   </label>
                   <input
                     type="text"
                     value={nim}
                     onChange={(e) => setNim(e.target.value)}
-                    placeholder="Contoh: 2201849102"
-                    className="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800"
+                    placeholder="Nomor Pokok Mahasiswa"
+                    className="w-full px-2.5 py-1.5 text-xs rounded-md border border-slate-200 bg-white"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                  <label className="block text-[11px] font-medium text-slate-700 mb-1">
                     Fakultas
                   </label>
                   <input
@@ -280,11 +280,11 @@ export const FormAspirasiModal: React.FC<FormAspirasiModalProps> = ({
                     value={fakultas}
                     onChange={(e) => setFakultas(e.target.value)}
                     placeholder="Contoh: Fakultas Teknik"
-                    className="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800"
+                    className="w-full px-2.5 py-1.5 text-xs rounded-md border border-slate-200 bg-white"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                  <label className="block text-[11px] font-medium text-slate-700 mb-1">
                     Program Studi
                   </label>
                   <input
@@ -292,7 +292,7 @@ export const FormAspirasiModal: React.FC<FormAspirasiModalProps> = ({
                     value={prodi}
                     onChange={(e) => setProdi(e.target.value)}
                     placeholder="Contoh: Teknik Informatika"
-                    className="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800"
+                    className="w-full px-2.5 py-1.5 text-xs rounded-md border border-slate-200 bg-white"
                   />
                 </div>
               </div>
@@ -300,20 +300,20 @@ export const FormAspirasiModal: React.FC<FormAspirasiModalProps> = ({
           </div>
 
           {/* Submit Actions */}
-          <div className="flex items-center justify-end space-x-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-end space-x-2 pt-2 border-t border-slate-100">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="px-3.5 py-2 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-100 transition-colors"
             >
               Batal
             </button>
             <button
               type="submit"
-              className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md shadow-indigo-600/30 transition-all active:scale-95"
+              className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 transition-colors shadow-xs"
             >
-              <Send className="w-4 h-4" />
-              <span>Kirim Aspirasi Sekarang</span>
+              <Send className="w-3.5 h-3.5" />
+              <span>Kirim Aspirasi</span>
             </button>
           </div>
         </form>

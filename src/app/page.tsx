@@ -162,7 +162,7 @@ export default function HomePage() {
   }, [aspirasiList, searchQuery, selectedKategori, selectedStatus, sortBy]);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
       {/* Top Navbar */}
       <Navbar onOpenCreateModal={() => setIsCreateOpen(true)} />
 
@@ -185,21 +185,21 @@ export default function HomePage() {
 
         {/* Content Aspirations Grid */}
         {!isLoaded ? (
-          <div className="py-24 text-center">
-            <div className="inline-block w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-            <p className="mt-3 text-xs text-slate-500">Memuat data aspirasi...</p>
+          <div className="py-20 text-center">
+            <div className="inline-block w-7 h-7 border-3 border-slate-300 border-t-slate-800 rounded-full animate-spin"></div>
+            <p className="mt-3 text-xs text-slate-500 font-medium">Memuat data aspirasi...</p>
           </div>
         ) : filteredList.length === 0 ? (
-          <div className="text-center py-20 px-4 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm">
-            <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 mx-auto flex items-center justify-center mb-4">
-              <MessageSquareDashed className="w-7 h-7" />
+          <div className="text-center py-16 px-4 rounded-xl border border-dashed border-slate-300 bg-white">
+            <div className="w-12 h-12 rounded-xl bg-slate-100 text-slate-600 mx-auto flex items-center justify-center mb-3">
+              <MessageSquareDashed className="w-6 h-6" />
             </div>
-            <div className="max-w-sm mx-auto mb-5">
-              <h3 className="text-base font-bold text-slate-800 dark:text-slate-200">
+            <div className="max-w-sm mx-auto mb-4">
+              <h3 className="text-sm font-bold text-slate-800">
                 Tidak ada aspirasi yang cocok
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                Coba ubah kata kunci pencarian atau ganti filter kategori/status untuk melihat
+              <p className="text-xs text-slate-500 mt-1">
+                Coba sesuaikan kata kunci pencarian atau ubah filter kategori/status untuk melihat
                 aspirasi lainnya.
               </p>
             </div>
@@ -209,13 +209,13 @@ export default function HomePage() {
                 setSelectedKategori('Semua Kategori');
                 setSelectedStatus('Semua Status');
               }}
-              className="px-4 py-2 text-xs font-semibold rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200"
+              className="px-3.5 py-1.5 text-xs font-medium rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
             >
               Reset Filter
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredList.map((aspirasi) => (
               <AspirasiCard
                 key={aspirasi.id}
@@ -230,21 +230,21 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 text-xs text-slate-500 dark:text-slate-400 transition-colors">
+      <footer className="border-t border-slate-200 bg-white py-6 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-[11px] font-bold">
+            <div className="w-5 h-5 rounded bg-slate-900 flex items-center justify-center text-white text-[10px] font-bold">
               SM
             </div>
-            <span className="font-semibold text-slate-700 dark:text-slate-300">
-              SuaraMahasiswa © 2026
+            <span className="font-semibold text-slate-800">
+              Suara Mahasiswa
             </span>
-            <span>— Portal Terbuka Aspirasi & Advokasi Kampus</span>
+            <span>— Kanal Advokasi & Aspirasi Kampus Merdeka</span>
           </div>
-          <div className="flex items-center space-x-4">
-            <span className="hover:text-indigo-600 cursor-pointer">Panduan Advokasi</span>
-            <span className="hover:text-indigo-600 cursor-pointer">Kebijakan Privasi</span>
-            <span className="hover:text-indigo-600 cursor-pointer">BEM Universitas</span>
+          <div className="flex items-center space-x-4 text-slate-500">
+            <span className="hover:text-slate-800 cursor-pointer transition-colors">Panduan Advokasi</span>
+            <span className="hover:text-slate-800 cursor-pointer transition-colors">Privasi & Anonimitas</span>
+            <span className="hover:text-slate-800 cursor-pointer transition-colors">BEM KM</span>
           </div>
         </div>
       </footer>
@@ -253,9 +253,9 @@ export default function HomePage() {
       <div className="fixed bottom-6 right-6 sm:hidden z-30">
         <button
           onClick={() => setIsCreateOpen(true)}
-          className="w-14 h-14 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-xl shadow-indigo-600/40 active:scale-95"
+          className="w-12 h-12 rounded-full bg-slate-900 text-white flex items-center justify-center shadow-lg active:scale-95 transition-transform"
         >
-          <Plus className="w-6 h-6" />
+          <Plus className="w-5 h-5" />
         </button>
       </div>
 

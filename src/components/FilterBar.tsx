@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { KategoriAspirasi, StatusAspirasi } from '@/types';
-import { Search, SlidersHorizontal, Flame, Sparkles, AlertTriangle } from 'lucide-react';
+import { Search, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
 
 interface FilterBarProps {
   searchQuery: string;
@@ -43,76 +43,75 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   onSortByChange,
 }) => {
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-800 shadow-sm mb-6 space-y-4">
-      {/* Search Input & Sort Tabs */}
+    <div className="bg-white rounded-xl p-4 border border-slate-200/90 shadow-xs space-y-3.5">
+      {/* Top Row: Search & Segmented Sort */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-3">
-        {/* Search */}
+        {/* Search Input */}
         <div className="relative w-full md:w-96">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Cari aspirasi, fasilitas, atau kata kunci..."
-            className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+            placeholder="Cari aspirasi, fasilitas, lokasi..."
+            className="w-full pl-9 pr-3.5 py-2 text-xs rounded-lg border border-slate-200 bg-slate-50/70 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-colors"
           />
         </div>
 
-        {/* Sort Buttons */}
-        <div className="flex items-center space-x-1.5 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
-          <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 mr-1 hidden lg:inline">
-            Urutkan:
+        {/* Sort Segmented Control */}
+        <div className="flex items-center space-x-1 p-1 rounded-lg bg-slate-100 border border-slate-200/80 w-full md:w-auto">
+          <span className="text-[11px] font-semibold text-slate-500 px-2 hidden lg:inline flex items-center gap-1">
+            <ArrowUpDown className="w-3 h-3" />
+            Urutan:
           </span>
+
           <button
             onClick={() => onSortByChange('popular')}
-            className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
               sortBy === 'popular'
-                ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
+                ? 'bg-white text-slate-900 font-semibold shadow-2xs'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <Flame className="w-3.5 h-3.5" />
-            <span>Terpopuler</span>
+            Dukungan Terbanyak
           </button>
 
           <button
             onClick={() => onSortByChange('latest')}
-            className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
               sortBy === 'latest'
-                ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
+                ? 'bg-white text-slate-900 font-semibold shadow-2xs'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Terbaru</span>
+            Terbaru
           </button>
 
           <button
             onClick={() => onSortByChange('urgent')}
-            className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
               sortBy === 'urgent'
-                ? 'bg-red-600 text-white shadow-sm shadow-red-600/30'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
+                ? 'bg-white text-slate-900 font-semibold shadow-2xs'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <AlertTriangle className="w-3.5 h-3.5" />
-            <span>Mendesak</span>
+            Prioritas Darurat
           </button>
         </div>
       </div>
 
-      {/* Filters: Category pills & Status select */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-100 dark:border-slate-800/80">
-        {/* Category horizontal scroll */}
+      {/* Bottom Row: Category Chips & Status Dropdown */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-100">
+        {/* Horizontal Category Scroll */}
         <div className="flex items-center space-x-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
           {KATEGORI_OPTIONS.map((kat) => (
             <button
               key={kat}
               onClick={() => onSelectKategori(kat)}
-              className={`whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium transition-all ${
+              className={`whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                 selectedKategori === kat
-                  ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-sm'
-                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200/80 dark:hover:bg-slate-700/80'
+                  ? 'bg-slate-900 text-white'
+                  : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200/80'
               }`}
             >
               {kat}
@@ -126,7 +125,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           <select
             value={selectedStatus}
             onChange={(e) => onSelectStatus(e.target.value)}
-            className="text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+            className="text-xs font-medium rounded-lg border border-slate-200 bg-white text-slate-700 px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-slate-400"
           >
             {STATUS_OPTIONS.map((st) => (
               <option key={st} value={st}>
@@ -139,3 +138,4 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     </div>
   );
 };
+
